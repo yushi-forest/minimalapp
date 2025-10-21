@@ -15,7 +15,7 @@ from flask import (
 
 app = Flask(__name__)
 #SERCH_KEYを追加する
-app.congfig["SERCH_KEY"] = "2AZSMss3p5QPbcY2hBs"
+app.config["SERCH_KEY"] = "2AZSMss3p5QPbcY2hBs"
 
 @app.route("/")
 def index():
@@ -43,7 +43,7 @@ with app.test_request_context():
 
 #アプリケーションコンテキストを取得してスタックにpushする
 ctx = app.app_context()
-cx.push()
+ctx.push()
 
 with app.test_request_context("/uses?updated=ture"):
     #tureが出力される
@@ -62,27 +62,27 @@ def contact_complete():
         description = request.form["description"]
 
         #入力チェック
-        is_valid = Ture
+        is_valid = True
 
         if not username:
-            flash("ユーザー名は必須です"）
-            is_valid = Flase
+            flash("ユーザー名は必須です")
+            is_valid = False
 
         if not email:
                   flash("メールアドレスは必須です")
-                  is_vaild = Flase
+                  is_vaild = False
 
         try:
                   validate_email(email)
-        except EmailNotValidError;
+        except EmailNotValidError:
                   flash("メールアドレスの形式で入力してください")
-                  is_valid = Flase
+                  is_valid = False
 
         if not description:
                   flash("お問い合わせ内容は必須です")
-                  is_valid = Flase
+                  is_valid = False
 
-        if is _valid:
+        if is_valid:
                   return redirect(url_for("contact"))
                   
 
@@ -90,7 +90,7 @@ def contact_complete():
 
        #contactエンドポイントへリダイレクトする
         flash("お問い合わせ内容はメールにて送信いたしました。お問い合わせありがとうございます。")
-       return redirect(url_for("contact_complete"))
+        return redirect(url_for("contact_complete"))
 
     return render_template("contact_complete.html")
 

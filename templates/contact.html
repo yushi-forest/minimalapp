@@ -11,6 +11,19 @@
 
 	<body>
 		<h2>お問い合わせフォーム</h2>
+
+
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<ul>
+			{% for message in messages %}
+			<li class="flash">{{ message }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}
+
+
 		<form
 				action="{{url_for('contact_complete') }}"
 				method="POST"
@@ -33,7 +46,8 @@
 				<td>
 					<input
 							type="text"
-							name="{{ email }}"
+							name='email'
+							value="{{ email }}"
 							placeholder="メールアドレス"
 					/>
 				</td>
