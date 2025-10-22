@@ -10,12 +10,18 @@ from flask import (
         redirect,
         flash,
 )
-
-
+import logging
+from flask_debugtoolbar import DebugToolbarExtension 
 
 app = Flask(__name__)
 #SERCH_KEYを追加する
-app.config["SERCH_KEY"] = "2AZSMss3p5QPbcY2hBs"
+app.config["SECRET_KEY"] = "2AZSMss3p5QPbcY2hBs"
+#ログレベルを設定する
+app.logger.setLevel(logging.DEBUG)
+#リダイレクトを中断しないようにする
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+#DebugToolbarExtensionにアプリケーションを設定する
+toolbar = DebugToolbarExtension(app)
 
 @app.route("/")
 def index():
